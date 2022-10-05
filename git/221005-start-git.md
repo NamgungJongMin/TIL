@@ -1,25 +1,24 @@
-# GIT
+# git 기본 학습
 
-## $ git 기본
+## 1. 기초적인 git 명령어
 
-### 기본 명령어
-~ : 유저 디렉토리
-ls : 현재 디렉토리 탐색
-	- flag
-		-a : 숨김 파일까지 전부 표시
-		-l : 상세한 정보 표
-cd : change directory
-mkdir : make directory
-touch : 텍스트 기반의 새 파일을 생성
-mv : 파일의 이동/ 파일명 변경
-	mv [파일명과 위치명시]
-	mv [파일명] [바꿀파일명]
+- 디렉토리 생성 및 삭제
+- 파일 생성 및 삭제
+- 파일 이동
+- 파일 복제
 
-> 상대경로
-	- . : 현재 디렉토리 / .. : 상위 디렉토리
-	- 상대 경로를 이용하여 다른 위치에 있는 파일을 이동시키는 것이 가능
+## 2. git objects
 
-cp : [복제할 파일] [위치와 이름지정]
+## 3. clone 방식과 init 방식
 
+## 4. hexo를 이용한 git 블로그 생성
 
+NamgungJongMin.github.io
 
+## 5. README 파일
+
+## 6. Conventional Commit 작성법
+
+## 7. .gitignore
+
+> 상세 내용 : connect-to-git repository 확인
