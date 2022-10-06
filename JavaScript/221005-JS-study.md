@@ -1,4 +1,4 @@
-# 변수
+# $ 변수
 
 ## 1. 식별자와 메모리
 
@@ -29,4 +29,4 @@
 
 ## 4. 표현식인 문과 표현식이 아닌 문
 
-> 상세 내용: JsDeepDive repository에서 확인
+> 상세 내용: JsDeepDive repository에서 정리
