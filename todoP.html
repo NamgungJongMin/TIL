@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Todos v1</title>
+    <title>Document</title>
     <style>
       .todo-list {
         padding: 0;
@@ -54,22 +54,18 @@
           filterId === 'completed' ? completed : filterId === 'active' ? !completed : true
         );
 
-        // prettier-ignore
-        $todoList.innerHTML = _todos.map(({id, content, completed}) => `
-          <li id="${id}">
+        $todoList.innerHTML = _todos
+          .map(
+            ({ id, content, completed }) => `
+        <li id="${id}">
             <input type="checkbox" ${completed ? 'checked' : ''}>
             <span>${content}</span>
             <button class="todo-remove">X</button>
-          </li>`).join('');
+          </li>`
+          )
+          .join('');
 
-        [...$todoFilters.children].forEach($filter => {
-          // if ($filter === e.target) $filter.classList.add('active');
-          // else $filter.classList.remove('active');
-          $filter.classList.toggle('active', $filter.id === filterId);
-        });
-
-        // document.querySelector('.active').classList.remove('active');
-        // e.target.classList.add('active');
+        [...$todoFilters.children].forEach($filter => $filter.classList.toggle('active', $filter.id === filterId));
       };
 
       const generateNextTodoId = () => Math.max(...state.todos.map(todo => todo.id), 0) + 1;
@@ -80,7 +76,6 @@
       };
 
       const fetchTodos = () => {
-        // TODO: fetch todos
         setState({
           todos: [
             { id: 3, content: 'Javascript', completed: false },
@@ -102,15 +97,17 @@
       };
 
       const removeTodo = id => {
-        setState({ todos: state.todos.filter(todo => todo.id !== +id) });
+        setState({
+          todos: state.todos.filter(todo => todo.id !== +id),
+        });
       };
 
-      // Event handlers
       window.addEventListener('DOMContentLoaded', fetchTodos);
 
       $todoInput.addEventListener('keyup', e => {
         const content = $todoInput.value.trim();
         if (e.key !== 'Enter' || content === '') return;
+
         addTodo(content);
         $todoInput.value = '';
       });

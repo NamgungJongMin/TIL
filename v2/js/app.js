@@ -83,9 +83,7 @@ const addTodo = content => {
 
 const toggleTodoCompleted = id => {
   setState({
-    todos: state.todos.map(todo =>
-      todo.id === +id ? { ...todo, completed: !todo.completed } : todo
-    ),
+    todos: state.todos.map(todo => (todo.id === +id ? { ...todo, completed: !todo.completed } : todo)),
   });
 };
 

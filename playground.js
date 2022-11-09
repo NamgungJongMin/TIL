@@ -8,7 +8,11 @@ let a = {
   filterId: 'all',
 };
 
-const { todos, filterId } = a;
-let c = todos.filter(({ completed }) => (filterId === 'completed' ? completed : !completed));
+let { todos, filterId } = a;
+// let c = todos.filter(({ completed }) => (filterId === 'completed' ? completed : !completed));
 
-console.log(c);
+// console.log(c);
+let bb = { todos: [{ id: 4, content: 'ccc', completed: false }, ...todos] };
+
+let aa = { ...a, ...bb };
+console.log(aa);
