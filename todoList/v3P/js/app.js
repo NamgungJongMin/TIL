@@ -9,7 +9,6 @@ let state = {
 
 const render = state => {
   console.log('state', state);
-  console.log('ddd');
 
   const { todos, editingTodoIds, stateFilter } = state;
   const filteredTodos = todos.filter(({ completed }) =>

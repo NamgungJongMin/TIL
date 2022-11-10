@@ -35,7 +35,6 @@ const toggleAllTodoCompleted = () => {
     isCheckedToggleAll,
   });
 };
-
 const addTodo = content => {
   const newTodo = { id: generateNextId(), content, completed: false };
   setState({ todos: [newTodo, ...state.todos] });
