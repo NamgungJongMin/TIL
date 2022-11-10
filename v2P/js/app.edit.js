@@ -10,7 +10,7 @@ const $toggleAll = document.querySelector('#toggle-all');
 
 let state = {
   todos: [],
-  editingTodoIds: [],
+  // editingTodoIds: Number(),
   stateFilter: 'all',
 };
 
@@ -26,7 +26,7 @@ const render = () => {
   $todoList.innerHTML = _todos
     .map(
       ({ id, content, completed }) =>
-        `<li data-id="${id}" class="${editingTodoIds.includes(id) ? 'editing' : ''}">
+        `<li data-id="${id}" class="${editingTodoIds === id ? 'editing' : ''}">
       <div class="view">
         <input type="checkbox" ${completed ? 'checked' : ''}   class="toggle"/>
         <label>${content}</label>
@@ -67,7 +67,7 @@ const fetchTodos = () => {
   });
 };
 
-const generateNextId = () => state.todos[0].id + 1;
+const generateNextId = () => Math.max(...state.todos.map(todo => todo.id), 0) + 1;
 
 const addTodo = () => {
   const newState = { id: generateNextId(), content: $newTodo.value, completed: false };
@@ -98,14 +98,18 @@ const toggleAllTodoActive = () => {
 };
 
 const changeToEditMode = id => {
-  setState({ editingTodoIds: [...state.editingTodoIds, +id] }); // 일반 모드 => 편집 모드
+  setState({ editingTodoIds: +id }); // 일반 모드 => 편집 모드
 };
 // 질문
 const updateTodoContent = (id, editedContent) => {
   setState({
     todos: state.todos.map(todo => (todo.id === +id ? { ...todo, content: editedContent } : todo)),
-    editingTodoIds: state.editingTodoIds.filter(_id => _id !== +id),
+    editingTodoIds: Number(),
   });
+};
+
+const removeAllCompletedTodos = () => {
+  setState({ todos: state.todos.filter(({ completed }) => completed === false) });
 };
 
 // -------------------------------------------------------------------------------
@@ -152,4 +156,8 @@ $todoList.addEventListener('keydown', e => {
   if (e.key !== 'Enter' || !e.target.classList.contains('edit')) return;
 
   updateTodoContent(e.target.closest('li').dataset.id, e.target.value);
+});
+
+$clearCompleted.addEventListener('click', () => {
+  removeAllCompletedTodos();
 });
