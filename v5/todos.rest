@@ -1,0 +1,21 @@
+GET http://localhost:9999/todos
+
+###
+
+POST http://localhost:9999/todos
+content-type: application/json
+
+{ "id": 4, "content": "React", "completed":false }
+
+###
+PATCH http://localhost:9999/todos/3
+content-type: application/json
+
+{"completed": true}
+
+###
+
+PATCH http://localhost:9999/todos?completed=true
+content-type: application/json
+
+{"completed": true}
