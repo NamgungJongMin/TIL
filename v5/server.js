@@ -60,9 +60,9 @@ app.delete('/todos/:id', (req, res) => {
 
 // DELETE /todos?completed=true
 app.delete('/todos', (req, res) => {
-  const { completed } = req.query;
+  const { completed } = req.query; // {completed :true}
   // console.log(completed);
-  todos = todos.filter(todo => todo.completed === false);
+  todos = todos.filter(todo => todo.completed === );
   res.send(todos);
   // do something
 });

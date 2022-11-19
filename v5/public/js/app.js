@@ -12,7 +12,7 @@ import {
 } from './state.js';
 
 const $root = document.getElementById('root');
-
+console.log(axios.post);
 /**
  * input 요소의 focus를 설정한다.
  * input 요소에 텍스트가 존재하는 경우 텍스트 앞에 cursor가 위치한다.
@@ -59,13 +59,13 @@ $root.addEventListener('input', e => {
 });
 
 // add todo
-$root.addEventListener('keydown', e => {
+$root.addEventListener('keydown', async e => {
   if (e.isComposing || e.keyCode === 229) return;
   if (e.key !== 'Enter' || !e.target.matches('.new-todo')) return;
 
   const content = e.target.value.trim();
   if (content) {
-    addTodo(content);
+    await addTodo(content);
     setFocusTo(document.querySelector('.new-todo'));
   }
 });

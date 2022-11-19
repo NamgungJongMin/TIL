@@ -222,8 +222,8 @@
 
 /* ---------------------------------- ---- ---------------------------------- */
 
+// import promise from './libs/ajax.js';
 import render from './render.js';
-import ajax from './libs/ajax.js';
 /**
  * 상태는 뷰에 영향을 주는 변화하는 데이터다.
  * 즉, 상태를 변경하면 리렌더링해 뷰를 변경한다.
@@ -272,25 +272,19 @@ const generateNextId = () => Math.max(...state.todos.map(todo => todo.id), 0) + 
 
 /// /////////////////////////////
 
-const fetchTodos = () => {
-  ajax.get(
-    'todos',
-    todos => {
-      setState({ todos });
-    },
-    error => console.log(error)
-  );
-  // get(
-  //   '/todos',
-  //   todos => {
-  //     setState({ todos });
-  //   },
-  //   error => console.log(error)
-  // );
+const fetchTodos = async () => {
+  try {
+    const { data: todos } = await axios.get('/todos');
+    setState({ todos });
+  } catch (err) {
+    console.log(err);
+  }
 };
 
-const toggleAllTodoCompleted = () => {
+const toggleAllTodoCompleted = async () => {
   const isCheckedToggleAll = !state.isCheckedToggleAll;
+  const { data: todos } = await axios.patch('/todos');
+
   setState({
     todos: state.todos.map(todo => ({ ...todo, completed: isCheckedToggleAll })),
     isCheckedToggleAll,
@@ -301,37 +295,41 @@ const changeInputNewTodoValue = value => {
   setState({ inputNewTodoValue: value });
 };
 
-const addTodo = content => {
-  const newTodo = { id: generateNextId(), content, completed: false };
-  ajax.post(
-    '/todos',
-    newTodo,
-    todos => {
-      setState({ todos, inputNewTodoValue: '' });
-    },
-    error => console.log(error)
-  );
-  // setState({ todos: [newTodo, ...state.todos], inputNewTodoValue: '' });
+const addTodo = async content => {
+  try {
+    const newTodo = { id: generateNextId(), content, completed: false };
+
+    const { data: todos } = await axios.post('/todos', newTodo);
+    setState({ todos, inputNewTodoValue: '' });
+  } catch (err) {
+    console.log(err);
+  }
 };
 
-const toggleTodoCompleted = id => {
-  const completed = !state.todos.find(todo => todo.id === +id).completed;
+const toggleTodoCompleted = async id => {
+  try {
+    const { completed } = state.todos.find(todo => todo.id === +id);
+    const { data: todos } = await axios.patch(`/todos/${id}`, { completed });
+    setState({ todos });
+  } catch (err) {
+    console.log(err);
+  }
 
-  ajax.patch(
-    `/todos/${id}`,
-    { completed },
-    todos => {
-      console.log('todos', todos);
-      const [firstTodo] = todos;
-      setState({
-        todos,
-        isCheckedToggleAll: todos.every(({ completed }) => completed === firstTodo.completed)
-          ? firstTodo.completed
-          : state.isCheckedToggleAll,
-      });
-    },
-    error => console.log(error)
-  );
+  // promise.patch(
+  //   `/todos/:id`,
+  //   { completed },
+  //   todos => {
+  //     console.log('todos', todos);
+  //     const [firstTodo] = todos;
+  //     setState({
+  //       todos,
+  // isCheckedToggleAll: todos.every(({ completed }) => completed === firstTodo.completed)
+  //   ? firstTodo.completed
+  //   : state.isCheckedToggleAll,
+  //     });
+  //   },
+  //   error => console.log(error)
+  // );
   // patch(
   //   `/todos/${id}`,
   //   { completed },
@@ -354,7 +352,9 @@ const toggleTodoCompleted = id => {
   //   error => console.log(error)
   // );
 };
-
+// 이벤트 발생하면 태스크큐로
+// 프라미스 리졸브 함수를 줌. 이후엔 then. 성공하면.
+// 프라미스 만들어보기.
 const changeToEditMode = id => {
   setState({ editingTodoIds: [...state.editingTodoIds, +id] }); // 일반 모드 => 편집 모드
 };
@@ -366,16 +366,19 @@ const updateTodoContent = (id, content) => {
   });
 };
 
-const removeTodo = id => {
-  ajax.delete(
-    `/todos/${id}`,
-    todos => {
-      setState({ todos: todos.filter(todo => todo.id !== +id) });
-    },
-    e => {
-      console.log(e);
-    }
-  );
+const removeTodo = async id => {
+  try {
+    const { data: todos } = await axios.delete(`/todos/${id}`);
+    setState({ todos: todos.filter(todo => todo.id !== +id) });
+  } catch (err) {
+    console.log(err);
+  }
+  // todos => {
+  //   setState({ todos: todos.filter(todo => todo.id !== +id) });
+  // },
+  // e => {
+  //   console.log(e);
+  // }
 
   // remove(
   //   `/todos/${id}`,
@@ -392,7 +395,8 @@ const changeCurrentFilter = id => {
   setState({ currentFilterId: id });
 };
 
-const removeAllCompletedTodos = () => {
+const removeAllCompletedTodos = async () => {
+  const { data: todos } = await axios.delete('/todos');
   setState({ todos: state.todos.filter(todo => !todo.completed) });
 };
 
