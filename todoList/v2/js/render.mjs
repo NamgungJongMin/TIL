@@ -2,7 +2,7 @@ const $todoList = document.querySelector('.todo-list');
 const $main = document.querySelector('.main');
 const $footer = document.querySelector('.footer');
 const $todoCount = document.querySelector('.todo-count');
-const $filters = document.querySelector('.filters');
+const $filters = document.querySelector('.filters');ads
 const $filterItems = $filters.querySelectorAll('a');
 const $clearCompleted = document.querySelector('.clear-completed');
 
